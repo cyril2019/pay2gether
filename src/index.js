@@ -4,10 +4,11 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import LandingPage from "./LandingPage";
-
+import { auth } from "./components/firebase-config";
+import Dashboard from "./Dashboard";
 ReactDOM.render(
   <React.StrictMode>
-    <LandingPage />
+    <Dashboard />
   </React.StrictMode>,
   document.getElementById("root")
 );

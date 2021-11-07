@@ -1,19 +1,34 @@
 import { React, useState } from "react";
 import { auth } from "./firebase-config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 function Login(props) {
-  const [id, setid] = useState();
-  const [password, setpassword] = useState();
+  const [id, setid] = useState("");
+  const [password, setpassword] = useState("");
+  const [errMsg, seterrMsg] = useState();
 
   //check for Login and Registration
   const [isLogin, setisLogin] = useState(true);
 
   async function onLogin() {
-    try {
-      console.log(`id=${id},pass=${password}`);
-      const user = await createUserWithEmailAndPassword(auth, id, password);
-    } catch (error) {
-      console.log(error.message);
+    if (id == "") {
+      seterrMsg("ID cannot be empty");
+    } else if (password == "") {
+      seterrMsg("Password cannot be empty");
+    } else {
+      try {
+        var currUser = auth.currentUser();
+        if (!currUser) {
+          console.log(currUser);
+
+          const user = await signInWithEmailAndPassword(auth, id, password);
+        } else {
+        }
+      } catch (error) {
+        seterrMsg(error.message);
+      }
     }
   }
 
@@ -47,6 +62,7 @@ function Login(props) {
           {/* password input */}
           <p className="font-light text-xl text-gray-600 pt-1">Password</p>
           <input
+            type="password"
             placeholder="Type your password"
             className="bg-gray-100 px-3 w-full"
             onChange={(e) => {
@@ -56,6 +72,9 @@ function Login(props) {
 
           {/* forgot password link */}
           <p className="text-blue-600 pt-2">Forgot password?</p>
+          {/* error msg */}
+          <p className="text-red-500">{errMsg}</p>
+
           {/* login button  */}
           <button
             className="w-full bg-blue-600 rounded-sm text-white"
