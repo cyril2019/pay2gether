@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import { auth } from "./firebase-config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 function Register(props) {
   const [id, setid] = useState("");
   const [password, setpassword] = useState("");
@@ -9,7 +10,7 @@ function Register(props) {
 
   //check for Login and Registration
   const [isLogin, setisLogin] = useState(true);
-
+  const navigate = useNavigate();
   async function onRegister() {
     if (id == "") {
       seterrMsg("id cannot be empty!");
@@ -19,6 +20,7 @@ function Register(props) {
       try {
         console.log(`id=${id},pass=${password}`);
         const user = await createUserWithEmailAndPassword(auth, id, password);
+        navigate("/");
       } catch (error) {
         seterrMsg(error.message);
       }

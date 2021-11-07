@@ -1,5 +1,6 @@
 import { React, useState } from "react";
-import { auth } from "./firebase-config";
+import { onAuthStateChanged, getAuth } from "@firebase/auth";
+import { useNavigate } from "react-router-dom";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -11,7 +12,13 @@ function Login(props) {
 
   //check for Login and Registration
   const [isLogin, setisLogin] = useState(true);
-
+  const auth = getAuth();
+  const navigate = useNavigate();
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  });
   async function onLogin() {
     if (id == "") {
       seterrMsg("ID cannot be empty");
@@ -19,13 +26,7 @@ function Login(props) {
       seterrMsg("Password cannot be empty");
     } else {
       try {
-        var currUser = auth.currentUser();
-        if (!currUser) {
-          console.log(currUser);
-
-          const user = await signInWithEmailAndPassword(auth, id, password);
-        } else {
-        }
+        const user = await signInWithEmailAndPassword(auth, id, password);
       } catch (error) {
         seterrMsg(error.message);
       }

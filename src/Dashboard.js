@@ -1,9 +1,14 @@
 import React from "react";
 import { FaSearch, FaRegBell, FaUserCircle } from "react-icons/fa";
+import { GrLogout } from "react-icons/gr";
 import FriendListCard from "./components/FriendListCard";
 import RecentPayment from "./components/RecentPayment";
-
+import { getAuth } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 function Dashboard() {
+  const auth = getAuth();
+  const navigate = useNavigate();
+
   return (
     <div className="w-screen px-14 pt-2">
       {/* navbar */}
@@ -20,7 +25,13 @@ function Dashboard() {
           <FaRegBell className="text-black w-min text-2xl " />
         </div>
         <div className="m-auto">
-          <FaUserCircle className="w-min m-2 text-2xl" />
+          <GrLogout
+            className="w-min m-2 text-2xl cursor-pointer"
+            onClick={() => {
+              auth.signOut();
+              navigate("/");
+            }}
+          />
         </div>
       </div>
       {/* body of dashboard */}

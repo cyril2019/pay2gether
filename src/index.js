@@ -5,10 +5,9 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import LandingPage from "./LandingPage";
 import { auth } from "./components/firebase-config";
-import Dashboard from "./Dashboard";
 ReactDOM.render(
   <React.StrictMode>
-    <Dashboard />
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );
